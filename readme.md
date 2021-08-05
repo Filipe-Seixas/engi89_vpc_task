@@ -43,6 +43,8 @@
 
 ## Creating a Routing Table
 
+- Now we want to create a routing to allow subnets to communicate through the internet
+
 - Go to Route Tables > Create Route Table
 	- Name: eng89_infra_filipe_route_internet
 	- VPC: Select eng89_infra_filipe_vpc
@@ -60,6 +62,15 @@
 - Repeat for bastion subnet, NOT DB since it doesn't need to access the internet
 
 ## Creating the Security Groups
+
+- A security group is connected to ec2 instance, it's the firewall, used to allow and deny access to ports, we want to protect the instance. Network ACL is for whole network
+
+- Inbound Rules: who can access the instance, control what's coming in
+- Outbound Rules: What the instance can access, control what's going out
+
+- Stateful firewall: port open in one direction and the firewall will remember to allow the response to pass in the opposite direction
+	- SG are stateful
+	- ACLs are stateless. The network ACL checks all rules, if it gets to the end and doesn't get a match, it denies it
 
 - Go to Security Groups > Create SG
 
@@ -188,6 +199,7 @@
 ## Deploying the app
 
 - Make sure all these points below are correct in App:
+	- App SG needs inbound rule for port 3000
 	- nginx default file (app ip)
 		- sudo systemctl restart nginx
 		- sudo systemctl enable nginx
